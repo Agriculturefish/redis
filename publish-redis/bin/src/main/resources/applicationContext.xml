@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--Jedis连接池的相关配置-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="200"/> <!--最大活动对象数-->
+        <property name="maxIdle" value="50"/>  <!--最大能够保持Idle（空闲）状态的对象数-->
+        <property name="testOnBorrow" value="true"/>  <!--当调用jedis实例时，是否进行有效性检查 -->
+        <property name="testOnReturn" value="true"/>  <!--当销毁jedis实例（connection）时，是否进行有效性检查-->
+    </bean>
+
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg name="poolConfig" ref="jedisPoolConfig" />
+        <constructor-arg name="host" value="192.168.223.128" />
+        <constructor-arg name="port" value="6379" />
+        <constructor-arg name="timeout" value="10000" />
+    </bean>
+
+   <!-- #最大活动对象数
+    redis.pool.maxTotal=1000
+    #最大能够保持idel状态的对象数
+    redis.pool.maxIdle=100
+    #最小能够保持idel状态的对象数
+    redis.pool.minIdle=50
+    #当池内没有返回对象时，最大等待时间
+    redis.pool.maxWaitMillis=10000
+    #当调用borrow Object方法时，是否进行有效性检查
+    redis.pool.testOnBorrow=true
+    #当调用return Object方法时，是否进行有效性检查
+    redis.pool.testOnReturn=true
+    #“空闲链接”检测线程，检测的周期，毫秒数。如果为负值，表示不运行“检测线程”。默认为-1.
+    redis.pool.timeBetweenEvictionRunsMillis=30000
+    #向调用者输出“链接”对象时，是否检测它的空闲超时；
+    redis.pool.testWhileIdle=true
+    # 对于“空闲链接”检测线程而言，每次检测的链接资源的个数。默认为3.
+    redis.pool.numTestsPerEvictionRun=50-->
+</beans>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script src="../jquery.min.js"></script>
+</head>
+<body>
+<button id="btn_secKill">秒杀商品</button>
+<div id="count_num"></div>
+<div id="result"></div>
+<script type="text/javascript">
+    var countNum = 0;
+    $(function(){
+        $("#btn_secKill").click(function(){
+            var json={"code":"20200101010101","num":1};
+            for(var i = 0 ; i < 100 ; i++){
+                $.post("/storage/secKill",json,function(data){
+                    if(data != "排队人数太多，请稍后"){
+                        $("#result").append("<br />" + data + "<br />");
+                    }else{
+                        $("#result").append("恭喜您，购买成功");
+                    }
+                    if(data.indexOf("恭喜您，购买成功！") != -1){
+                        countNum += 1;
+                    }
+                    $("#count_num").text("总共卖出："+countNum);
+                });
+
+            }
+        });
+    });
+</script>
+</body>
+</html>
